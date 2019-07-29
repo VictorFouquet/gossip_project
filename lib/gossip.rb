@@ -27,4 +27,20 @@ class Gossip
 		return gossip[id]
 	end
 
+	def self.update(id, author, content)
+		all_gossips = Gossip.all
+		id = id.to_i - 1
+		all_gossips[id].author = author
+		all_gossips[id].content = content
+		n = 0
+		a =  all_gossips.length
+		CSV.open("./db/gossip.csv", "w")
+		while a > 0
+			CSV.open("./db/gossip.csv", "ab") do |csv|
+	    	csv << [all_gossips[n].author, all_gossips[n].content]
+	    end
+			a -= 1
+			n += 1
+		end
+	end
 end
